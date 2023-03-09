@@ -6,14 +6,15 @@ import SessionsPage from "./pages/SessionsPage/SessionsPage"
 import SuccessPage from "./pages/SuccessPage/SuccessPage"
 
 export default function App() {
+
     return (
         <BrowserRouter>
            <NavContainer>CINEFLEX</NavContainer>
             <Routes>
             <Route exact path="/" element={<HomePage />} />
-            <Route exact path="/" element={<SeatsPage />} />
-            <Route exact path="/" element={<SessionsPage />} />
-            <Route exact path="/" element={<SuccessPage />} />
+            <Route exact path="/sessoes/:idFilme" element={<SessionsPage />} />
+            <Route exact path="/assentos" element={<SeatsPage />} />
+            <Route exact path="/sucesso" element={<SuccessPage />} />
             </Routes>
         </BrowserRouter>
     )

@@ -1,6 +1,29 @@
+import axios from "axios";
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom";
 import styled from "styled-components"
 
 export default function SessionsPage() {
+    const [sessoes, setSessoes]=useState(null);
+    const {idFilme}=useParams();
+
+    useEffect(()=>{
+        const url=`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`
+        const promesa=axios.get(url);
+        promesa.then((resp)=>{
+            console.log(resp.data);
+        })
+    },[])
+    
+    
+    
+    
+    
+    if(sessoes===null){
+        return <div>Carregando...</div>
+    }else if(sessoes.length===0){
+        return <div>Deu ruim aqui</div>
+    }
 
     return (
         <PageContainer>
