@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import styled from "styled-components"
+import Data from "./Components/Data";
 
 export default function SessionsPage() {
     const [sessoes, setSessoes]=useState(null);
@@ -12,6 +13,8 @@ export default function SessionsPage() {
         const promesa=axios.get(url);
         promesa.then((resp)=>{
             console.log(resp.data);
+            setSessoes(resp.data.days);
+            console.log(resp.data.days)
         })
     },[])
     
@@ -25,33 +28,13 @@ export default function SessionsPage() {
         return <div>Deu ruim aqui</div>
     }
 
+
+    
     return (
         <PageContainer>
             Selecione o horário
             <div>
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
+                {sessoes.map(e=><Data key={e.id} id={e.id} dia={[e.weekday, e.date]} sessoes={e.showtimes} />)}
             </div>
 
             <FooterContainer>
@@ -81,26 +64,7 @@ const PageContainer = styled.div`
         margin-top: 20px;
     }
 `
-const SessionContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    font-family: 'Roboto';
-    font-size: 20px;
-    color: #293845;
-    padding: 0 20px;
-`
-const ButtonsContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin: 20px 0;
-    button {
-        margin-right: 20px;
-    }
-    a {
-        text-decoration: none;
-    }
-`
+
 const FooterContainer = styled.div`
     width: 100%;
     height: 120px;
