@@ -4,7 +4,7 @@ import Horario from "./Horario";
 export default function Data({id, dia, sessoes}){
 
     return(
-        <SessionContainer>
+        <SessionContainer data-test="movie-day">
             {dia[0]+' - '+dia[1]}
             <ButtonsContainer>
                 {sessoes.map(e=><Horario key={e.id} id={e.id} hora={e.name} />)}

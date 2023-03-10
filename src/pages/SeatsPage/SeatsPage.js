@@ -70,15 +70,15 @@ export default function SeatsPage({setSucesso}) {
 
             <FormContainer onSubmit={enviar}>
                 <label htmlFor="nome">Nome do Comprador:</label>
-                <input id="nome" name="nome" value={nome} onChange={(e)=>setNome(e.target.value)} placeholder="Digite seu nome..." />
+                <input data-test="client-name" id="nome" name="nome" value={nome} onChange={(e)=>setNome(e.target.value)} placeholder="Digite seu nome..." />
 
                 <label htmlFor="cpf">CPF do Comprador:</label>
-                <input id="cpf" name="cpf" value={cpf} onChange={(e)=>setCpf(e.target.value)} placeholder="Digite seu CPF..." />
+                <input data-test="client-cpf" id="cpf" name="cpf" value={cpf} onChange={(e)=>setCpf(e.target.value)} placeholder="Digite seu CPF..." />
 
-                <button type="submit" >Reservar Assento(s)</button>
+                <button data-test="book-seat-btn" type="submit" >Reservar Assento(s)</button>
             </FormContainer>
 
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
                     <img src={filme.movie.posterURL} alt={filme.movie.title} />
                 </div>

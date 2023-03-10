@@ -36,7 +36,7 @@ export default function SessionsPage() {
                 {filme.days.map(e=><Data key={e.id} id={e.id} dia={[e.weekday, e.date]} sessoes={e.showtimes} />)}
             </div>
 
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
                     <img src={filme.posterURL} alt={filme.title} />
                 </div>

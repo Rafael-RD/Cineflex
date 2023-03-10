@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 export default function Filme({id, url, nome}){
     return(
-        <MovieContainer>
+        <MovieContainer data-test="movie">
             <Link to={`/sessoes/${id}`}>
                 <img src={url} alt={nome} />
             </Link>
