@@ -1,33 +1,47 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom"
 import styled from "styled-components"
+import Legenda from "./Components/Legenda";
+import Seats from "./Components/Seats";
 
 export default function SeatsPage() {
+    const [filme, setFilme]=useState(null);
+    const [selecionados, setSelecionados]=useState([]);
+    const {idSessao}=useParams();
+
+
+    
+    useEffect(()=>{
+        const url=`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`;
+        const promessa=axios.get(url);
+        promessa.then(resp=>{
+            console.log(resp.data);
+            setFilme(resp.data);
+        })
+    },[idSessao])
+    
+    
+    function clickAssento(id){
+        if(selecionados.includes(id)){
+            setSelecionados(selecionados.filter(e=>e!==id));
+        }else setSelecionados([...selecionados, id]);
+    }
+
+
+    if(filme === null) return <div>Carregando</div>
+    if(filme.length === 0) return <div>Deu Ruim</div>
+
 
     return (
         <PageContainer>
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-                <SeatItem>01</SeatItem>
-                <SeatItem>02</SeatItem>
-                <SeatItem>03</SeatItem>
-                <SeatItem>04</SeatItem>
-                <SeatItem>05</SeatItem>
+                {filme.seats.map(e=><Seats key={e.id} selected={selecionados.includes(e.id)} clickAssento={clickAssento} assento={e} />)}
             </SeatsContainer>
 
-            <CaptionContainer>
-                <CaptionItem>
-                    <CaptionCircle />
-                    Selecionado
-                </CaptionItem>
-                <CaptionItem>
-                    <CaptionCircle />
-                    Disponível
-                </CaptionItem>
-                <CaptionItem>
-                    <CaptionCircle />
-                    Indisponível
-                </CaptionItem>
-            </CaptionContainer>
+            <Legenda />
 
             <FormContainer>
                 Nome do Comprador:
@@ -41,11 +55,11 @@ export default function SeatsPage() {
 
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={filme.movie.posterURL} alt={filme.movie.title} />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
-                    <p>Sexta - 14h00</p>
+                    <p>{filme.movie.title}</p>
+                    <p>{filme.day.weekday} - {filme.name}</p>
                 </div>
             </FooterContainer>
 
@@ -88,43 +102,7 @@ const FormContainer = styled.div`
         width: calc(100vw - 60px);
     }
 `
-const CaptionContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    width: 300px;
-    justify-content: space-between;
-    margin: 20px;
-`
-const CaptionCircle = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 5px 3px;
-`
-const CaptionItem = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 12px;
-`
-const SeatItem = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    font-family: 'Roboto';
-    font-size: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 5px 3px;
-`
+
 const FooterContainer = styled.div`
     width: 100%;
     height: 120px;

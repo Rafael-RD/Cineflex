@@ -10,8 +10,8 @@ export default function SessionsPage() {
 
     useEffect(()=>{
         const url=`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`
-        const promesa=axios.get(url);
-        promesa.then((resp)=>{
+        const promessa=axios.get(url);
+        promessa.then((resp)=>{
             console.log(resp.data);
             setFilme(resp.data);
         })
