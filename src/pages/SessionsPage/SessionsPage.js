@@ -5,7 +5,7 @@ import styled from "styled-components"
 import Data from "./Components/Data";
 
 export default function SessionsPage() {
-    const [sessoes, setSessoes]=useState(null);
+    const [filme, setFilme]=useState(null);
     const {idFilme}=useParams();
 
     useEffect(()=>{
@@ -13,18 +13,17 @@ export default function SessionsPage() {
         const promesa=axios.get(url);
         promesa.then((resp)=>{
             console.log(resp.data);
-            setSessoes(resp.data.days);
-            console.log(resp.data.days)
+            setFilme(resp.data);
         })
-    },[])
+    },[idFilme])
     
     
     
     
     
-    if(sessoes===null){
+    if(filme===null){
         return <div>Carregando...</div>
-    }else if(sessoes.length===0){
+    }else if(filme.length===0){
         return <div>Deu ruim aqui</div>
     }
 
@@ -34,15 +33,15 @@ export default function SessionsPage() {
         <PageContainer>
             Selecione o horário
             <div>
-                {sessoes.map(e=><Data key={e.id} id={e.id} dia={[e.weekday, e.date]} sessoes={e.showtimes} />)}
+                {filme.days.map(e=><Data key={e.id} id={e.id} dia={[e.weekday, e.date]} sessoes={e.showtimes} />)}
             </div>
 
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={filme.posterURL} alt={filme.title} />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
+                    <p>{filme.title}</p>
                 </div>
             </FooterContainer>
 
