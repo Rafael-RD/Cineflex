@@ -1,6 +1,8 @@
 import styled from "styled-components"
 
-export default function SuccessPage() {
+export default function SuccessPage({sucesso}) {
+    console.log(sucesso);
+
 
     return (
         <PageContainer>

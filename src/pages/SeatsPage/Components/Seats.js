@@ -12,7 +12,7 @@ export default function Seats({clickAssento, selected, assento}){
     },[selected, assento.isAvailable])
 
     return(
-        <SeatItem cor={cor} onClick={assento.isAvailable?()=>clickAssento(assento.id):()=>alert('Esse assento não está disponível')} >
+        <SeatItem cor={cor} onClick={assento.isAvailable?()=>clickAssento(assento.id, assento.name):()=>alert('Esse assento não está disponível')} >
             {Number(assento.name)<10?`0${assento.name}`:assento.name}
         </SeatItem>
     )

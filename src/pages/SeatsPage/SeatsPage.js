@@ -1,14 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import Legenda from "./Components/Legenda";
 import Seats from "./Components/Seats";
 
-export default function SeatsPage() {
+export default function SeatsPage({setSucesso}) {
     const [filme, setFilme]=useState(null);
-    const [selecionados, setSelecionados]=useState([]);
+    const [selecionados, setSelecionados]=useState([[],[]]);
     const {idSessao}=useParams();
+    const [nome, setNome]=useState('');
+    const [cpf, setCpf]=useState('');
+    const navigate=useNavigate();
+    
 
 
     
@@ -22,10 +26,31 @@ export default function SeatsPage() {
     },[idSessao])
     
     
-    function clickAssento(id){
-        if(selecionados.includes(id)){
-            setSelecionados(selecionados.filter(e=>e!==id));
-        }else setSelecionados([...selecionados, id]);
+    function clickAssento(id, numero){
+        if(selecionados[0].includes(id)){
+            const ids=selecionados[0].filter(e=>e!==id);
+            const numeros=selecionados[1].filter(e=>e!==numero);
+            setSelecionados([ids, numeros]);
+        }else setSelecionados([[...selecionados[0], id], [...selecionados[1], numero]]);
+    }
+
+
+    function enviar(e){
+        e.preventDefault();
+        const url='https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many';
+        const data={ids: selecionados[0], name: nome, cpf: cpf};
+        const promessa=axios.post(url, data);
+        promessa.then((resp)=>{
+            console.log('deu bom');
+            console.log(resp.data);
+            setSucesso({title: filme.movie.title, dia: filme.day.date, hora: filme.name, assentos: selecionados[1], nome: nome, cpf: cpf});
+            navigate('/sucesso');
+        })
+        promessa.catch(resp=>{
+            console.log('deu ruim');
+            console.log(resp);
+            alert('deu erro com o server cara');
+        })
     }
 
 
@@ -38,19 +63,19 @@ export default function SeatsPage() {
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-                {filme.seats.map(e=><Seats key={e.id} selected={selecionados.includes(e.id)} clickAssento={clickAssento} assento={e} />)}
+                {filme.seats.map(e=><Seats key={e.id} selected={selecionados[0].includes(e.id)} clickAssento={clickAssento} assento={e} />)}
             </SeatsContainer>
 
             <Legenda />
 
-            <FormContainer>
-                Nome do Comprador:
-                <input placeholder="Digite seu nome..." />
+            <FormContainer onSubmit={enviar}>
+                <label htmlFor="nome">Nome do Comprador:</label>
+                <input id="nome" name="nome" value={nome} onChange={(e)=>setNome(e.target.value)} placeholder="Digite seu nome..." />
 
-                CPF do Comprador:
-                <input placeholder="Digite seu CPF..." />
+                <label htmlFor="cpf">CPF do Comprador:</label>
+                <input id="cpf" name="cpf" value={cpf} onChange={(e)=>setCpf(e.target.value)} placeholder="Digite seu CPF..." />
 
-                <button>Reservar Assento(s)</button>
+                <button type="submit" >Reservar Assento(s)</button>
             </FormContainer>
 
             <FooterContainer>
@@ -88,7 +113,7 @@ const SeatsContainer = styled.div`
     justify-content: center;
     margin-top: 20px;
 `
-const FormContainer = styled.div`
+const FormContainer = styled.form`
     width: calc(100vw - 40px); 
     display: flex;
     flex-direction: column;
