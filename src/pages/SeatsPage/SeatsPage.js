@@ -70,10 +70,10 @@ export default function SeatsPage({setSucesso}) {
 
             <FormContainer onSubmit={enviar}>
                 <label htmlFor="nome">Nome do Comprador:</label>
-                <input data-test="client-name" id="nome" name="nome" value={nome} onChange={(e)=>setNome(e.target.value)} placeholder="Digite seu nome..." />
+                <input required data-test="client-name" id="nome" name="nome" value={nome} onChange={(e)=>setNome(e.target.value)} placeholder="Digite seu nome..." />
 
                 <label htmlFor="cpf">CPF do Comprador:</label>
-                <input data-test="client-cpf" id="cpf" name="cpf" value={cpf} onChange={(e)=>setCpf(e.target.value)} placeholder="Digite seu CPF..." />
+                <input required data-test="client-cpf" id="cpf" name="cpf" value={cpf} onChange={(e)=>setCpf(e.target.value)} placeholder="Digite seu CPF..." />
 
                 <button data-test="book-seat-btn" type="submit" >Reservar Assento(s)</button>
             </FormContainer>
