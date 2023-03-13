@@ -14,8 +14,6 @@ export default function SeatsPage({setSucesso}) {
     const navigate=useNavigate();
     
 
-
-    
     useEffect(()=>{
         const url=`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`;
         const promessa=axios.get(url);
@@ -70,7 +68,7 @@ export default function SeatsPage({setSucesso}) {
 
             <FormContainer onSubmit={enviar}>
                 <label htmlFor="nome">Nome do Comprador:</label>
-                <input required data-test="client-name" id="nome" name="nome" value={nome} onChange={(e)=>setNome(e.target.value)} placeholder="Digite seu nome..." />
+                <input required data-test="client-name" id="nome" name="nome" value={nome} onChange={(e)=>setNome(e.target.value)} minLength={2} maxLength={40} placeholder="Digite seu nome..." />
 
                 <label htmlFor="cpf">CPF do Comprador:</label>
                 <input required data-test="client-cpf" id="cpf" name="cpf" value={cpf} onChange={(e)=>setCpf(e.target.value)} placeholder="Digite seu CPF..." />

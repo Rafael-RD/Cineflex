@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import Assentos from "./Components/Assentos"
 import Comprador from "./Components/Comprador"
 
 export default function SuccessPage({sucesso}) {
 
-
-
+    if(Object.keys(sucesso).length===0) return <PageContainer><Link data-test="go-home-btn" to={'/'}><button>Voltar para Home</button></Link></PageContainer>
 
     return (
         <PageContainer>
@@ -15,14 +13,12 @@ export default function SuccessPage({sucesso}) {
             <TextContainer data-test="movie-info" >
                 <strong><p>Filme e sessão</p></strong>
                 {<p>{sucesso.title}</p>}
-                {/* <p>Tudo em todo lugar ao mesmo tempo</p> */}
                 <p>{sucesso.dia} - {sucesso.hora}</p>
-                {/* <p>03/03/2023 - 14:00</p> */}
             </TextContainer>
 
             <TextContainer data-test="seats-info">
                 <strong><p>Ingressos</p></strong>
-                {sucesso.assentos.sort((a, b)=>a-b).map(e=><Assentos numero={e} />)}
+                {sucesso.assentos.sort((a, b)=>a-b).map(e=><p>Assento {e}</p>)}
             </TextContainer>
 
             <TextContainer data-test="client-info">
